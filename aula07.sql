@@ -1,9 +1,9 @@
 /* ============================================================
-   QUEST√O 01 - PROCEDURE
+   QUEST√ÉO 01 - PROCEDURE
    ============================================================ */
 
 CREATE PROCEDURE student_grade_points
-    @grade VARCHAR(2) -- Par‚metro: conceito (A, B+, etc.)
+    @grade VARCHAR(2) -- Par√¢metro: conceito (A, B+, etc.)
 AS
 BEGIN
     SELECT 
@@ -15,7 +15,7 @@ BEGIN
         t.year,
         t.grade AS alphanumeric_grade,
 
-        -- Convers„o de nota letra ? numÈrica
+        -- Convers√£o de nota letra em num√©rica
         CASE 
             WHEN t.grade = 'A+' THEN 4.0
             WHEN t.grade = 'A'  THEN 4.0
@@ -31,16 +31,16 @@ BEGIN
         END AS numeric_grade
 
     FROM student s
-    INNER JOIN takes t ON s.ID = t.ID       -- aluno ? disciplinas
+    INNER JOIN takes t ON s.ID = t.ID       -- aluno em disciplinas
     INNER JOIN course c ON t.course_id = c.course_id
 
-    WHERE t.grade = @grade -- filtro pelo par‚metro
+    WHERE t.grade = @grade -- filtro pelo par√¢metro
 END
 GO
 
 
 /* ============================================================
-   QUEST√O 02 - FUNCTION
+   QUEST√ÉO 02 - FUNCTION
    ============================================================ */
 
 CREATE FUNCTION return_instructor_location (@instructor_name VARCHAR(100))
@@ -57,7 +57,7 @@ RETURN
         s.room_number
 
     FROM instructor i
-    INNER JOIN teaches t ON i.ID = t.ID     -- instrutor ? turmas
+    INNER JOIN teaches t ON i.ID = t.ID     -- instrutor em turmas
     INNER JOIN section s 
         ON t.course_id = s.course_id
         AND t.sec_id = s.sec_id
@@ -65,15 +65,6 @@ RETURN
         AND t.year = s.year
     INNER JOIN course c ON t.course_id = c.course_id
 
-    WHERE i.name = @instructor_name -- filtro pelo par‚metro
+    WHERE i.name = @instructor_name -- filtro pelo par√¢metro
 )
 GO
-
-
-/* ======================
-   EXEMPLOS DE USO
-   ====================== */
-
-EXEC student_grade_points 'A';
-
-SELECT * FROM dbo.return_instructor_location('Gustafsson');
